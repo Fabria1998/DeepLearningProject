@@ -1,6 +1,25 @@
 # DeepLearningProject
+# Conteo de Personas con YOLO y Ultralytics
 
-Descripción concisa del proyecto.
+Este proyecto utiliza el modelo YOLO (You Only Look Once) y la biblioteca Ultralytics para realizar el conteo de personas en áreas seleccionadas a partir de imágenes de video o la cámara en tiempo real.
+
+## Requisitos
+
+- Python 3.x
+- Bibliotecas:
+  OpenCV
+  Shapely
+  Ultralytics
+  Pillow
+
+## Instalación
+
+1. Clona este repositorio:
+
+   ```bash
+   git clone https://github.com/tu-usuario/contad-personas-yolo.git
+   cd contad-personas-yolo
+
 
 ## Requisitos
 
