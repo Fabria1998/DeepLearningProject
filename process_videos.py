@@ -27,18 +27,18 @@ cv2.moveWindow('video', 100, 100)  # Cambia los valores según tus necesidades
 cv2.resizeWindow('video', 800, 600)  # Cambia los valores según tus necesidades
 
 #Funcion draw_results
-    """
-    Dibuja los resultados de la detección en la imagen, resaltando las personas dentro de las áreas definidas.
+"""
+Dibuja los resultados de la detección en la imagen, resaltando las personas dentro de las áreas definidas.
 
-    Args:
-    - image: Imagen original.
-    - image_results: Resultados de la detección de YOLO.
-    - areas: Diccionario de áreas definidas.
-    - show_id: Indica si se deben mostrar los IDs de las personas.
+Args:
+- image: Imagen original.
+- image_results: Resultados de la detección de YOLO.
+- areas: Diccionario de áreas definidas.
+- show_id: Indica si se deben mostrar los IDs de las personas.
 
-    Returns:
-    - image_annotated: Imagen con las anotaciones visuales.
-    """
+Returns:
+- image_annotated: Imagen con las anotaciones visuales.
+"""
 def draw_results(image, image_results, areas, show_id=True):
     annotator = Annotator(image.copy())
     
@@ -74,7 +74,6 @@ def draw_results(image, image_results, areas, show_id=True):
 
 #Función para obtener visualización con polígonos
 def get_viz(cam, points):
-    """Función para obtener visualización con polígonos"""
     cam_vis = cam.copy()
     alpha = 0.5
     overlay = camera_image_original.copy()
@@ -87,7 +86,6 @@ def get_viz(cam, points):
 
 #Función para visualizar la cámara
 def visualize_camera():
-    """Función para visualizar la cámara"""
     camera_image_visualization = get_viz(camera_image_original, points_cameras)
     cv2.imshow('video', camera_image_visualization)
 
@@ -101,13 +99,13 @@ def mouse_camera(event, x, y, flags, param):
             points_cameras[camera_index].append([x, y])
         visualize_camera()
 #Funcion count_people_in_area
-    """
-    Cuenta las personas dentro de las áreas definidas.
+"""
+Cuenta las personas dentro de las áreas definidas.
 
-    Args:
-    - frame: Fotograma de la cámara.
-    - areas: Diccionario de áreas definidas.
-    """
+Args:
+- frame: Fotograma de la cámara.
+- areas: Diccionario de áreas definidas.
+"""
 def count_people_in_areas(frame, areas):
     results_track = model.track(frame, conf=0.40, classes=0, tracker="botsort.yaml", persist=True, verbose=False)
     
