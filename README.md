@@ -20,8 +20,6 @@ Este proyecto utiliza el modelo YOLO (You Only Look Once) y la biblioteca Ultral
 
    ```bash
    git clone https://github.com/Fabria1998/DeepLearningProject
-   
-  ```bash
    cd DeepLearningProject
 
 
