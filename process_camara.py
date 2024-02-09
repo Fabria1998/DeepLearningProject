@@ -1,3 +1,5 @@
+#Contador de personas en tiempo real
+#Importamos las librerias
 import cv2
 import json
 import numpy as np
@@ -6,10 +8,13 @@ from ultralytics import YOLO
 from ultralytics.utils.plotting import Annotator
 import random
 
+# Cargar el modelo YOLO preentrenado
 model = YOLO("models/yolov8n.pt", task="detect")
 
+# Colores aleatorios para resaltar personas en la imagen
 colors = random.choices(range(256), k=1000)
 
+#funcion para mostrar los resultados
 def draw_results(image, image_results, areas, show_id=True):
     annotator = Annotator(image.copy())
     
@@ -39,7 +44,17 @@ def draw_results(image, image_results, areas, show_id=True):
     image_annotated = annotator.result()
     return image_annotated, people_in_areas
 
+#Definición de la funcion get_viz
+"""
+    Crea una visualización de las áreas de la cámara.
 
+    Args:
+    - cam: Imagen de la cámara.
+    - points_cameras: Puntos que definen las áreas de la cámara.
+
+    Returns:
+    - cam_vis: Imagen con las áreas visuales resaltadas.
+"""
 def get_viz(cam, points_cameras):
     cam_vis = cam.copy()
     alpha = 0.5
@@ -51,6 +66,8 @@ def get_viz(cam, points_cameras):
     cv2.addWeighted(overlay, alpha, cam_vis, 1 - alpha, 0, cam_vis)
     return cam_vis
 
+#Funcion visualize_camera
+#Visualiza la imagen de la cámara con las áreas definidas.
 def visualize_camera():
     ret, camera_image_original = cap.read()
     if not ret:
@@ -59,6 +76,18 @@ def visualize_camera():
     camera_image_visualization = get_viz(camera_image_original, points_cameras)
     cv2.imshow('video', camera_image_visualization)
 
+
+    #Funcion visualize_camera   
+    """
+    Maneja los eventos del ratón para definir las áreas de la cámara.
+
+    Args:
+    - event: Evento del ratón.
+    - x, y: Coordenadas del evento.
+    - flags: Indicadores de estado.
+    - param: Parámetros adicionales.
+    """
+    
 def mouse_camera(event, x, y, flags, param):
     if event == cv2.EVENT_LBUTTONDOWN: 
         if not camera_index in points_cameras.keys():
@@ -66,7 +95,15 @@ def mouse_camera(event, x, y, flags, param):
         else:
             points_cameras[camera_index].append([x, y])
         visualize_camera()
+ 
+    #Funcion count_people_in_areas  
+    """
+    Cuenta las personas dentro de las áreas definidas.
 
+    Args:
+    - frame: Fotograma de la cámara.
+    - areas: Diccionario de áreas definidas.
+    """
 def count_people_in_areas(frame, areas):
     results_track = model.track(frame, conf=0.40, classes=0, tracker="botsort.yaml", persist=True, verbose=False)
     
@@ -82,16 +119,18 @@ def count_people_in_areas(frame, areas):
         
         print(f"People in Area {area_id}: {people_in_area}")
 
+# Inicialización de la cámara
 cap = cv2.VideoCapture(0)  # Usar la cámara del computador (puede necesitar ajustes dependiendo del número de cámara)
 
 camw_ = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 camh_ = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
+# Lectura de la primera imagen de la cámara
 ret, camera_image_original = cap.read()
 if not ret:
     print("Error al leer la cámara.")
     exit()
-
+# Configuración de la ventana
 cv2.namedWindow('video', cv2.WINDOW_NORMAL)
 # Especificar la posición y el tamaño de la ventana
 cv2.resizeWindow('video', 800, 600)  # Cambia los valores según tus necesidades
@@ -103,6 +142,7 @@ points_cameras = {}
 areas_to_count = {}
 count_people = False
 
+# Bucle para definir las áreas
 while True:
     visualize_camera()
 
@@ -127,6 +167,7 @@ while True:
     if count_people:
         break
 
+# Bucle principal para la detección y conteo de personas
 while True:
     ret, camera_image_original = cap.read()
     if not ret:
@@ -151,6 +192,6 @@ while True:
     if k == ord('q'):
         break
 
-
+# Liberar recursos y cerrar ventanas
 cap.release()
 cv2.destroyAllWindows()
