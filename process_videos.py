@@ -26,20 +26,22 @@ cv2.namedWindow('video', cv2.WINDOW_NORMAL)
 cv2.moveWindow('video', 100, 100)  # Cambia los valores según tus necesidades
 cv2.resizeWindow('video', 800, 600)  # Cambia los valores según tus necesidades
 
-#Funcion draw_results
-"""
-Dibuja los resultados de la detección en la imagen, resaltando las personas dentro de las áreas definidas.
 
-Args:
-- image: Imagen original.
-- image_results: Resultados de la detección de YOLO.
-- areas: Diccionario de áreas definidas.
-- show_id: Indica si se deben mostrar los IDs de las personas.
-
-Returns:
-- image_annotated: Imagen con las anotaciones visuales.
-"""
 def draw_results(image, image_results, areas, show_id=True):
+
+    #Funcion draw_results
+    """
+    Dibuja los resultados de la detección en la imagen, resaltando las personas dentro de las áreas definidas.
+
+    Args:
+    - image: Imagen original.
+    - image_results: Resultados de la detección de YOLO.
+    - areas: Diccionario de áreas definidas.
+    - show_id: Indica si se deben mostrar los IDs de las personas.
+
+    Returns:
+    - image_annotated: Imagen con las anotaciones visuales.
+    """
     annotator = Annotator(image.copy())
     
     people_in_areas = {area_id: [] for area_id in areas.keys()}  # Inicializar la lista de IDs para cada área
@@ -72,8 +74,8 @@ def draw_results(image, image_results, areas, show_id=True):
     image_annotated = annotator.result()
     return image_annotated
 
-#Función para obtener visualización con polígonos
 def get_viz(cam, points):
+    """Función para obtener visualización con polígonos"""
     cam_vis = cam.copy()
     alpha = 0.5
     overlay = camera_image_original.copy()
@@ -84,12 +86,11 @@ def get_viz(cam, points):
     cv2.addWeighted(overlay, alpha, cam_vis, 1 - alpha, 0, cam_vis)
     return cam_vis
 
-#Función para visualizar la cámara
 def visualize_camera():
+    """Función para visualizar la cámara"""
     camera_image_visualization = get_viz(camera_image_original, points_cameras)
     cv2.imshow('video', camera_image_visualization)
 
-#Función ligada a la visualización de la cámara para realizar callbacks
 def mouse_camera(event, x, y, flags, param):
     """Función ligada a la visualización de la cámara para realizar callbacks"""
     if event == cv2.EVENT_LBUTTONDOWN: 
@@ -98,15 +99,16 @@ def mouse_camera(event, x, y, flags, param):
         else:
             points_cameras[camera_index].append([x, y])
         visualize_camera()
-#Funcion count_people_in_area
-"""
-Cuenta las personas dentro de las áreas definidas.
 
-Args:
-- frame: Fotograma de la cámara.
-- areas: Diccionario de áreas definidas.
-"""
 def count_people_in_areas(frame, areas):
+    #Funcion count_people_in_area
+    """
+    Cuenta las personas dentro de las áreas definidas.
+
+    Args:
+    - frame: Fotograma de la cámara.
+    - areas: Diccionario de áreas definidas.
+    """
     results_track = model.track(frame, conf=0.40, classes=0, tracker="botsort.yaml", persist=True, verbose=False)
     
     for area_id, area_points in areas.items():
@@ -195,7 +197,8 @@ while True:
     k = cv2.waitKey(1)
     if k == ord('q'):
         break
-        
+
 # Liberar recursos y cerrar ventanas
 cap.release()
 cv2.destroyAllWindows()
+
