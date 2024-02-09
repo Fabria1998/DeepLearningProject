@@ -42,8 +42,8 @@ class InfoWindow:
 
         info_label = tk.Label(self.info_window, text=info_text, bg=bg_color, justify="left")
         info_label.pack(padx=20, pady=20)
+        
         # Agregar imágenes
-
         img_ultralytics = Image.open("ultralytics_image.png")  # Reemplaza "ultralytics_image.png" con tu ruta de imagen
         img_ultralytics = ImageTk.PhotoImage(img_ultralytics)
         label_ultralytics = tk.Label(self.info_window, image=img_ultralytics, bg=bg_color)
