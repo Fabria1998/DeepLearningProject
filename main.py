@@ -1,9 +1,13 @@
+#Programa Principal
+#Interfaz gráfica de nuestro proyecto
+#Importamos las Librerias
 import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk
 import os
 import subprocess
 
+#Creamos la clase InterfazApp
 class InterfazApp:
     def __init__(self, master):
         self.master = master
@@ -50,12 +54,15 @@ class InterfazApp:
         )
         self.exit_button.place(x=500, y=150)
 
+    #Función para llamar a process_camara.py 
     def start_camera(self):
         subprocess.Popen(["python", "process_camara.py"])
 
+    #Función para llamar a process_videos.py
     def load_video(self):
         subprocess.Popen(["python", "process_videos.py"])
 
+    #Función para mostrar las instrucciones
     def show_instructions(self):
         instructions = """
         Instrucciones de Uso:
@@ -88,10 +95,11 @@ class InterfazApp:
         """
         messagebox.showinfo("Instrucciones", instructions)
 
+    #Función para mostrar las información
     def show_info(self):
         subprocess.Popen(["python", "process_info.py"])
 
-
+    #Función para cerrar el programa
     def exit_program(self):
         self.master.destroy()
 
