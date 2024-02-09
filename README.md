@@ -36,7 +36,7 @@ Asegúrate de tener Python instalado en tu sistema. El programa está diseñado 
   - NumPy
 
 
-## Instalación
+## Instalación de librerias
 Instrucciones para instalar y configurar el proyecto.
 Intstalacion de bibliotecas:
     ```bash
@@ -159,4 +159,4 @@ Este manual proporciona instrucciones detalladas sobre cómo utilizar el program
   Cerrar el Programa.
 
 
-
+¡Disfruta de la experiencia de contar personas con esta aplicación!
